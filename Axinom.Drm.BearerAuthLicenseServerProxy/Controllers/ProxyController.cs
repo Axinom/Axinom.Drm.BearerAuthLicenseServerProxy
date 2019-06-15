@@ -58,6 +58,8 @@ namespace Axinom.Drm.BearerAuthLicenseServerProxy.Controllers
                     realContent.Headers.Add(headerName, headerValue);
             }
 
+            realContent.Headers.Add("X-Forwarded-For", Request.HttpContext.Connection.RemoteIpAddress.ToString());
+
             var realResponse = await ProxyClient.PostAsync(targetUrl, realContent, cancel);
             Response.StatusCode = (int)realResponse.StatusCode;
             Response.ContentType = realResponse.Content.Headers.ContentType.ToString();
